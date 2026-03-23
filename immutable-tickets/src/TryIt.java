@@ -3,15 +3,11 @@ import com.example.tickets.TicketService;
 
 import java.util.List;
 
-/**
- * Demo showing immutability in action.
- */
 public class TryIt {
 
     public static void main(String[] args) {
         TicketService service = new TicketService();
 
-        // Create ticket
         IncidentTicket original = service.createTicket(
                 "TCK-1001",
                 "reporter@example.com",
@@ -19,7 +15,6 @@ public class TryIt {
         );
         System.out.println("Created: " + original);
 
-        // "Update" returns NEW ticket - original unchanged
         IncidentTicket assigned = service.assign(original, "agent@example.com");
         IncidentTicket escalated = service.escalateToCritical(assigned);
 
@@ -28,7 +23,6 @@ public class TryIt {
         System.out.println("  Assigned : " + assigned);
         System.out.println("  Escalated: " + escalated);
 
-        // Try external tag mutation - will fail
         List<String> tags = escalated.getTags();
         try {
             tags.add("HACKED_FROM_OUTSIDE");
@@ -36,8 +30,5 @@ public class TryIt {
         } catch (UnsupportedOperationException e) {
             System.out.println("\nExternal mutation blocked!");
         }
-
-        // No setters exist - won't compile:
-        // original.setPriority("LOW");
     }
 }
